@@ -8,6 +8,7 @@ namespace DemoApp.Controllers
 {
     public class HomeController : Controller
     {
+        // This is test
         public ActionResult Index()
         {
             return View();
