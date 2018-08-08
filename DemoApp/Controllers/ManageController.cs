@@ -51,7 +51,7 @@ namespace DemoApp.Controllers
         }
 
         //
-        // GET: /Manage/Index
+        // GET: /Manage/Index/
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
