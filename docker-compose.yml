@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  democore:
+    image: democore
+    build:
+      context: .
+      dockerfile: DemoCore/Dockerfile

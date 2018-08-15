@@ -1,0 +1,60 @@
+image: microsoft/aspnetcore-build:2.0
+
+
+stages:
+  - build
+  - unit_test
+#  - code_coverage
+#  - build_image
+
+build:
+  stage: build
+  script:
+    - "dotnet --version"
+    - "dotnet publish DemoApp/DemoApp.csproj -c Release -o ../../out"
+  artifacts:
+    paths:
+      - out/
+    expire_in: 1 week
+  only:
+    - master
+  
+unit_test:
+  stage: unit_test
+  script:
+    - "dotnet test -c Release test/UnitTests/UnitTests.csproj"
+  only:
+    - master
+  
+#code_coverage:
+#  stage: code_coverage
+#  script:
+#    - "dotnet build -c Debug test/UnitTests/UnitTests.csproj"
+#    - "cd tools/MiniCover"
+#    - "dotnet restore"
+#    - "dotnet minicover instrument --parentdir ../../ --assemblies test/UnitTests/**/*.dll --sources src/**/*.cs"
+#    - "dotnet minicover reset"
+#    - "dotnet test -c Debug ../../test/UnitTests/UnitTests.csproj --no-build"
+#    - "dotnet minicover uninstrument"
+#    - "#dotnet minicover htmlreport --threshold 0"
+#    - "dotnet minicover report --threshold 0"
+#  coverage: '/All files.*\s(\d+.\d+)/'
+#  only:
+#    - master
+    
+#build_image:
+#  stage: build_image
+#  image: docker:latest
+#  services:
+#    - docker:dind
+#  script:
+#    - "echo $PASSWORD | docker login $REGISTRY_URL -u $DOCKER_REGISTRY_USER --password-stdin"
+#    - "docker build -t vdc3-objectstorage-api -f Dockerfile.GitLab ."
+#    - "TAG=$REGISTRY_URL/vdc-3/vdc3-objectstorage-api:$CI_PIPELINE_ID"
+#    - "docker tag vdc3-objectstorage-api $TAG"
+#    - "docker push $TAG"
+#  variables:
+#    REGISTRY_URL: registry.build.interoute.com:5000
+#    PASSWORD: $DOCKER_REGISTRY_PASS
+#  only:
+#    - master
